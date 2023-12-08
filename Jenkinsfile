@@ -12,5 +12,12 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/saikumarpinisetti3/Youtube-clone-app.git'
             }
         }
+        stage('BUILD'){
+            steps{
+                script{
+                    sh "npm install -y"
+                    sh "npm run build"
+                }
+            }
 }
 }
