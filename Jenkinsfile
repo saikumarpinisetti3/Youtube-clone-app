@@ -11,6 +11,11 @@ pipeline{
     }
     
     stages {
+          stage('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
         stage('Checkout from Git'){
             steps{
                 sh "git branch: 'main', url: 'https://github.com/saikumarpinisetti3/Youtube-clone-app.git'"
