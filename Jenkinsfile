@@ -4,6 +4,9 @@ pipeline{
         jdk 'jdk17'
         nodejs 'node16'
     }
+    environment {
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
    
     stages {
           stage('clean workspace'){
@@ -16,16 +19,14 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/saikumarpinisetti3/Youtube-clone-app.git'
             }
         }
-        stage('static code analysis') {
-    steps {
-        script {
-            withSonarQubeEnv('sonar-server') {
-                sh "npm run sonar-scanner"
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=youtube \
+                    -Dsonar.projectKey=youtube '''
+                }
             }
         }
-    }
-}
-
         stage("quality gate"){
            steps {
                 script {
