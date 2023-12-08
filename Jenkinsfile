@@ -18,7 +18,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                sh "git branch: 'main', url: 'https://github.com/saikumarpinisetti3/Youtube-clone-app.git'"
+                git branch: 'main', url: 'https://github.com/saikumarpinisetti3/Youtube-clone-app.git'
             }
         }
 }
