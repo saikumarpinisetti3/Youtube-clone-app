@@ -1,5 +1,13 @@
 pipeline{
     agent any
+     environment {
+        APP_NAME = "youtubeapp"
+        RELEASE = "1.0.0"
+        DOCKER_USER = "saikumarpinisetti"
+        DOCKER_PASS = 'Supershot#143'
+        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+    }
      tools{
         jdk 'jdk17'
         nodejs 'node16'
@@ -50,6 +58,17 @@ pipeline{
                 sh "trivy fs . > trivyfs.txt"
             }
         }
+        stage("Docker Build "){
+            steps{
+                script{
+                     
+                     sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME}:${APP_NAME} ."
+                     sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}"
+                     sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${DOCKER_USER}/${APP_NAME}:latest"
+                    }
+                }
+            }
+
 }
       post {
     always {
