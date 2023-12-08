@@ -12,12 +12,22 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/saikumarpinisetti3/Youtube-clone-app.git'
             }
         }
-        stage('BUILD'){
-            steps{
-                script{
-                    sh "npm run build"
-                }
+        stage('static code analysis') {
+    steps {
+        script {
+            withSonarQubeEnv(credentialsId: 'sonar-token') {
+                sh "npm run sonar-scanner"
             }
+        }
+    }
+}
+
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                }
+            } 
         }
 }
 }
