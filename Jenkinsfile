@@ -38,7 +38,7 @@ pipeline{
     always {
         echo 'Slack Notifications'
         slackSend (
-            channel: '#jenkins-youtube',   #change your channel name
+            channel: '#jenkins-youtube',
             message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         )
     }
