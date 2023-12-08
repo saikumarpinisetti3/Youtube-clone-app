@@ -1,19 +1,18 @@
 pipeline{
     agent any
-     environment {
-        APP_NAME = "youtubeapp"
-        RELEASE = "1.0.0"
-        DOCKER_USER = "saikumarpinisetti"
-        DOCKER_PASS = 'Supershot#143'
-        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
-        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
-    }
+    
      tools{
         jdk 'jdk17'
         nodejs 'node16'
     }
     environment {
         SCANNER_HOME=tool 'sonar-scanner'
+        APP_NAME = "youtubeapp"
+        RELEASE = "1.0.0"
+        DOCKER_USER = "saikumarpinisetti"
+        DOCKER_PASS = 'Supershot#143'
+        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
     }
    
     stages {
