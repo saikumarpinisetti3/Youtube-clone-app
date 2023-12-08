@@ -34,7 +34,8 @@ pipeline{
                 }
             } 
         }
-        post {
+}
+      post {
     always {
         echo 'Slack Notifications'
         slackSend (
@@ -43,5 +44,4 @@ pipeline{
         )
     }
         }
-}
 }
