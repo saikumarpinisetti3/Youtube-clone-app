@@ -19,7 +19,7 @@ pipeline{
         stage('static code analysis') {
     steps {
         script {
-            withSonarQubeEnv(credentialsId: 'sonar-token') {
+            withSonarQubeEnv('sonar-server') {
                 sh "npm run sonar-scanner"
             }
         }
