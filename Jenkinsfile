@@ -57,6 +57,15 @@ pipeline{
                     }
                 }
             }
+        stage("PUSH IMAGE TO DOCKER HUB"){
+            steps{
+                script{
+                    sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+                    sh "docker image push ${APP_NAME}:latest"
+                    
+                }
+            }
+        }
     }
 
     post {
