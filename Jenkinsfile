@@ -9,7 +9,7 @@ pipeline{
         SCANNER_HOME=tool 'sonar-scanner'
         APP_NAME = "youtubeapp"
         RELEASE = "1.0.0"
-        DOCKER_USER = "saikumarpinisetti"
+        DOCKER_USER = "saikumarpinisetti3"
         DOCKER_PASS = 'Supershot#143'
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
