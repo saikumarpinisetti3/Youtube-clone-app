@@ -53,7 +53,7 @@ pipeline{
                      
                      sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME}:${IMAGE_TAG} ."
                    
-                     sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
+                     sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${APP_NAME}:latest"
                     }
                 }
             }
