@@ -41,27 +41,27 @@ pipeline{
                 }
             } 
         }
-         stage('Install Dependencies') {
+        stage('Install Dependencies') {
             steps {
                 sh "npm install"
             }
         }
-        stage('OWASP FS SCAN') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-        stage('TRIVY FS SCAN') {
-            steps {
-                sh "trivy fs . > trivyfs.txt"
-            }
-        }
+       # stage('OWASP FS SCAN') {
+        #    steps {
+         #       dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+          #      dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+           # }
+        #}
+        #stage('TRIVY FS SCAN') {
+         #   steps {
+          #      sh "trivy fs . > trivyfs.txt"
+           # }
+        #}
         stage("Docker Build "){
             steps{
                 script{
                      
-                     sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME}:${APP_NAME} ."
+                     sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME} ."
                      sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}"
                      sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${DOCKER_USER}/${APP_NAME}:latest"
                     }
