@@ -9,7 +9,7 @@ pipeline{
         SCANNER_HOME=tool 'sonar-scanner'
         APP_NAME = "youtubeapp"
         RELEASE = "1.0.0"
-        DOCKER_USER = "saikumarpinisetti3"
+        DOCKER_USER = "saikumarpinisetti"
         DOCKER_PASS = 'Supershot#143'
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
@@ -52,17 +52,20 @@ pipeline{
                 script{
                      
                      sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME}:${IMAGE_TAG} ."
-                   
-                     sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${APP_NAME}:latest"
+                    sh "docker image tag ${APP_NAME}:${IMAGE_TAG} saikumarpinisetti/${APP_NAME}:${IMAGE_TAG}"
+                     sh "docker image tag ${APP_NAME}:${IMAGE_TAG} saikumarpinisetti/${APP_NAME}:latest"
                     }
                 }
             }
         stage("PUSH IMAGE TO DOCKER HUB"){
             steps{
                 script{
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+
                     sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
-                    sh "docker image push ${APP_NAME}:latest"
-                    
+                    SH "docker image push saikumarpinisetti/${APP_NAME}:${IMAGE_TAG}"
+                    sh "docker image push saikumarpinisetti/${APP_NAME}:latest"
+                    }   
                 }
             }
         }
