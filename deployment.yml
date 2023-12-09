@@ -15,9 +15,5 @@ spec:
       containers:
         - name: youtube
           image: saikumarpinisetti/youtube:latest
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "1000m"
           ports:
             - containerPort: 3000
