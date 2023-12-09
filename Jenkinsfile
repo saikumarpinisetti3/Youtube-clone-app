@@ -51,15 +51,14 @@ pipeline{
             steps{
                 script{
                      
-                     sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME} ."
+                     sh "docker build --build-arg REACT_APP_RAPID_API_KEY=e3430d2467mshe6b3f78568544e5p1a1522jsn591ac3682c0f -t ${APP_NAME}:${IMAGE_TAG} ."
                      sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}"
                      sh "docker image tag ${APP_NAME}:${IMAGE_TAG} ${DOCKER_USER}/${APP_NAME}:latest"
                     }
                 }
             }
 
-}
-      post {
+IMAGE_TAG      post {
     always {
         echo 'Slack Notifications'
         slackSend (
