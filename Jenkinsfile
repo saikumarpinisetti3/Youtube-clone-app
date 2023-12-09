@@ -58,7 +58,7 @@ pipeline{
                 }
             }
 
-IMAGE_TAG      post {
+    post {
     always {
         echo 'Slack Notifications'
         slackSend (
