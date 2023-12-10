@@ -110,7 +110,8 @@ pipeline{
                withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'pass', usernameVariable: 'user')]) {
                     // Use the Git credentials
                         gitTool 'Default'  // Assuming 'Default' is your Git tool name
-                        sh "git push https://$user:$pass@github.com/saikumarpinisetti3/Youtube-clone-app.git main"
+                        sh "git push https://${user}:${pass}@github.com/saikumarpinisetti3/Youtube-clone-app.git main"
+
 }
 
             }
