@@ -46,6 +46,17 @@ pipeline{
                 sh "npm install"
             }
         }
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
         
         stage("Docker Build "){
             steps{
@@ -69,6 +80,42 @@ pipeline{
                 }
             }
         }
+         stage('Cleanup Artifacts') {
+            steps {
+                script {
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker rmi ${IMAGE_NAME}:latest"
+                }
+            }
+        }
+         stage("Update the Deployment Tags") {
+            steps {
+                sh """
+                   cat deployment.yaml
+                   sed -i 's|${APP_NAME}.*|${APP_NAME}:${IMAGE_TAG}|g' deployment.yaml
+                   cat deployment.yaml
+                """
+            }
+        }
+        stage("Push the changed deployment file to Git") {
+            steps {
+                sh """
+                    git remote set-url origin git@github.com:saikumarpinisetti3/Youtube-clone-app.git
+
+                   git config --global user.name "saikumarpinisetti3"
+                   git config --global user.email "saikumarpinisetti3@gmail.com"
+                   git add deployment.yaml
+                   git commit -m "Updated Deployment Manifest"
+                """
+               withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    // Use the Git credentials
+                        gitTool 'Default'  // Assuming 'Default' is your Git tool name
+                        sh "git push https://$user:$pass@github.com/saikumarpinisetti3/Youtube-clone-app main"
+}
+
+            }
+        }
+
     }
 
     post {
